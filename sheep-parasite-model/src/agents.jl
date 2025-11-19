@@ -1,5 +1,3 @@
-module Agents
-
 using Agents
 
 # define the agent type
