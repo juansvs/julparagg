@@ -102,6 +102,7 @@ end
 # Function to run the simulation loop
 # step function that updates space properties and advances the model
 function run_sim!(model, t::Float64=24.0)
+    step!(model)  # initial step
     while abmtime(model)<t
         update_space_properties!(model)
         step!(model) 
