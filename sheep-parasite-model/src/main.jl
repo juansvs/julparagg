@@ -33,7 +33,7 @@ params = Dict(
 
 function main()
     # Initialize the model
-    model = initialize_model(num_sheep=10, arena_side=78, params)
+    model = initialize_model(10, 78, params)
 
     # Run the simulation
     simtime = 60*24*30.0  # total simulation time in hours
@@ -41,6 +41,7 @@ function main()
 
     # Visualize the results
     # visualize_results(model)
+    return model
 end
 
-main()
+out = main()
