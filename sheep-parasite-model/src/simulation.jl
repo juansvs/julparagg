@@ -75,7 +75,7 @@ end
 function defecation!(agent, model)
     pos = CartesianIndex(agent.pos)
     s0 = model.s0
-    prop = s0 / agent.stomach_content * agent.egg_number
+    prop = floor(s0 / agent.stomach_content * agent.egg_number)
     model.feces_number[pos] += s0
     agent.egg_number -= prop
     model.uninf_larva_number[pos] += prop
