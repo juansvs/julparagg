@@ -1,13 +1,11 @@
-module SheepParasiteModel
-
 using Agents
 
 """
 Struct holding model properties and parameters:
-- sward_height: Vector of Int, initial grass height per patch (default 200).
-- uninf_larva_number: Vector of Int, number of uninfective larvae per patch (default 0).
-- inf_larva_number: Vector of Int, number of infective larvae per patch (default 0).
-- feces_number: Vector of Int, number of feces per patch (default 0).
+- sward_height: Matrix of Int, initial grass height per patch (default 200).
+- uninf_larva_number: Matrix of Int, number of uninfective larvae per patch (default 0).
+- inf_larva_number: Matrix of Int, number of infective larvae per patch (default 0).
+- feces_number: Matrix of Int, number of feces per patch (default 0).
 - gamma: Float, sward growth rate.
 - max_sward_height: Int, maximum sward height.
 - epsilon: Float, larval development rate.
@@ -137,6 +135,4 @@ function run_sim!(model, t::Float64=24.0)
         step!(model) 
         # save data or visualize at desired intervals
     end
-end
-
 end
