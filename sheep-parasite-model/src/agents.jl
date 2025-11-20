@@ -7,4 +7,5 @@ using Agents
     immunity_level::Int = 0
     stomach_content::Int = 0
     egg_number::Int = 0
+    dest::Tuple{Int,Int} = (1,1)
 end
