@@ -1,6 +1,8 @@
 # src/main.jl
 
-using Agents, Random, Distributions
+using Agents, Random, Base.Threads
+using Distributions:Poisson
+
 include("agents.jl")
 include("model.jl")
 include("simulation.jl")
@@ -36,7 +38,7 @@ function main()
     model = initialize_model(10, 78, params)
 
     # Run the simulation
-    simtime = 60*24*30.0  # total simulation time in hours
+    simtime = 60*24*15.0  # total simulation time in hours
     run_sim!(model, simtime)
 
     # Visualize the results
