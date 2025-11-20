@@ -1,7 +1,8 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads
+using Agents, Random, Base.Threads, StatsBase
 using Distributions:Poisson
+using Distributions:Multinomial
 
 include("agents.jl")
 include("model.jl")
