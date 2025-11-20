@@ -92,11 +92,16 @@ end
 
 # movement function
 function move!(agent, model)
-    randomwalk!(agent, model)
+    move_agent!(agent, agent.dest, model)
 end
 
 function move_propensity(agent, model)
-    return model.nu
+    neighbors = collect(nearby_positions(agent, model))
+    wts = [model.sward_height[CartesianIndex(n)] for n in neighbors]
+    idx = wsample(wts)
+    hj = wts[idx]
+    agent.dest = neighbors[idx]
+    return model.nu*hj/length(wts)
 end
 
 # Function to run the simulation loop
