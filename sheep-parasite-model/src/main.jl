@@ -52,18 +52,3 @@ end
 
 # write outputs to file
 @save "simulation_output.jld2" time_series endstate
-
-# visualization
-time = map(x->x/1440, time_series.t)  # convert time to days
-# Mean larvae
-plot(time, map(mean, time_series.inf_larva_number), label="Mean Infective Larvae", color=:blue)
-# Mean sward height
-plot(time, map(mean, time_series.sward_height), label="Mean Sward Height", color=:blue)
-
-agentprops = time_series.agent_properties
-mat_par_load = [[agentprops[t][i][:mat_par_load] for t in 1:length(agentprops)] for i in 1:5]
-imm_par_load = [[agentprops[t][i][:imm_par_load] for t in 1:length(agentprops)] for i in 1:5]
-stomach_content = [[agentprops[t][i][:stomach_content] for t in 1:length(agentprops)] for i in 1:5]
-plot(time, mat_par_load, label="Mature Parasite Load")
-plot(time, imm_par_load, label="Immature Parasite Load")
-plot(time, stomach_content, label="stomach_content")
