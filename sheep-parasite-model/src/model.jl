@@ -125,12 +125,3 @@ function initialize_model(num_sheep::Int, arena_side::Int, params::Dict)
     
     return model
 end
-
-# step function that updates space properties and advances the model
-function run_sim!(model, t::Float64=24.0)
-    while abmtime(model)<t
-        update_space_properties!(model)
-        step!(model) 
-        # save data or visualize at desired intervals
-    end
-end
