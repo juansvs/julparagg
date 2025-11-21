@@ -16,7 +16,7 @@ end
 
 function grazing_propensity(agent, model)
     pos = CartesianIndex(agent.pos)
-    return model.beta * (model.sward_height[pos] - model.min_sward_height) * exp(-model.mu_k * model.feces_number[pos] * (agent.imm_par_load + agent.mat_par_load) / (1 + agent.immunity_level) * model.Lambda)
+    return model.beta * (model.sward_height[pos] - model.min_sward_height) * exp(-model.mu_k * model.feces_number[pos] * (agent.imm_par_load + agent.mat_par_load) * model.Lambda)
 end
 
 function death_a!(agent, model)
@@ -38,9 +38,8 @@ function death_A_propensity(agent, model)
 end
 
 function maturation!(agent, model)
-    maturing_parasites = min(1, agent.imm_par_load)
-    agent.mat_par_load += maturing_parasites
-    agent.imm_par_load -= maturing_parasites
+    agent.mat_par_load += 1
+    agent.imm_par_load -= 1
 end
 
 function maturation_propensity(agent, model)
@@ -56,8 +55,7 @@ function immunity_gain_propensity(agent, model)
 end
 
 function immunity_loss!(agent, model)
-    immun_lost = min(1, agent.immunity_level)
-    agent.immunity_level -= immun_lost
+    agent.immunity_level -= 1
 end
 
 function immunity_loss_propensity(agent, model)
