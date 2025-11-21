@@ -39,12 +39,12 @@ function main()
     model = initialize_model(10, 78, params)
 
     # Run the simulation
-    simtime = 60*24*15.0  # total simulation time in hours
-    run_sim!(model, simtime)
+    simtime = 60*24*15.0  # total simulation time in minutes
+    time_series =     run_sim!(model, simtime, 360.0)
 
     # Visualize the results
     # visualize_results(model)
-    return model
+    return model, time_series
 end
 
 # run the main function and time it
