@@ -104,14 +104,49 @@ function move_propensity(agent, model)
     return model.nu*hj/length(wts)
 end
 
+
+function save_state(outobj, model::AgentBasedModel, freq::Float64=360.0)
+    # check if time has advanced by freq minutes and is a new minute
+    _, v = first(abmqueue(model))
+    nxt = floor(v)
+    ct = floor(abmtime(model))
+    if (nxt%freq == 0) && (nxt>ct)
+        props = abmproperties(model)
+        agentprops = [(id=a.id, imm_par_load=a.imm_par_load, mat_par_load=a.mat_par_load,
+            immunity_level=a.immunity_level, egg_number=a.egg_number,
+            stomach_content=a.stomach_content) for a in allagents(model)]
+        sh = copy(props.sward_height)
+        ul = copy(props.uninf_larva_number)
+        il = copy(props.inf_larva_number)
+        fn = copy(props.feces_number)
+        push!(outobj.t, nxt)
+        push!(outobj.sward_height, sh)
+        push!(outobj.uninf_larva_number, ul)
+        push!(outobj.inf_larva_number, il)
+        push!(outobj.feces_number, fn)    
+        push!(outobj.agent_properties, agentprops)
+    end
+end
+
 # Function to run the simulation loop
 # step function that updates space properties and advances the model
-function run_sim!(model, t::Float64=24.0)
+function run_sim!(model::AgentBasedModel, t::Float64=1440.0, sfreq::Float64=360.0)
+    # create output object
+    outobj = (
+        t = Vector{Int64}(),
+        sward_height = Vector{Matrix{Int64}}(),
+        uninf_larva_number = Vector{Matrix{Int64}}(),
+        inf_larva_number = Vector{Matrix{Int64}}(),
+        feces_number = Vector{Matrix{Int64}}(),
+        agent_properties = Vector{Vector{NamedTuple}}()
+    )
     step!(model)  # initial step
     while abmtime(model)<t
         update_space_properties!(model)
         step!(model) 
-        # save data or visualize at desired intervals
+        # save data at specified intervals
+        save_state(outobj, model, sfreq)
     end
+    return outobj
 end
 
