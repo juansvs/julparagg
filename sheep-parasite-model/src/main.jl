@@ -1,13 +1,13 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads, StatsBase
+using Agents, Random, Base.Threads, StatsBase, JLD2, Plots
 using Distributions:Poisson
 using Distributions:Multinomial
 
 include("agents.jl")
-include("model.jl")
-include("simulation.jl")
 include("space.jl")
+include("simulation.jl")
+include("model.jl")
 include("visualization.jl")
 
 # set simulation parameters
