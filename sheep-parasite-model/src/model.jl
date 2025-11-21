@@ -1,5 +1,3 @@
-using Agents
-
 """
 Struct holding model properties and parameters:
 - sward_height: Matrix of Int, initial grass height per patch (default 200).

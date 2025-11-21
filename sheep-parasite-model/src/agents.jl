@@ -1,5 +1,3 @@
-using Agents
-
 # define the agent type
 @agent struct Sheep(GridAgent{2})
     imm_par_load::Int = 0

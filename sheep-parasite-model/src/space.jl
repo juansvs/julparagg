@@ -1,4 +1,3 @@
-using Base.Threads
 # define functions for patch dynamics
 function sward_growth!(pos, model, n)
     model.sward_height[pos] += n
@@ -112,4 +111,3 @@ function update_space_properties!(model)
         fn[pos] = max(fn[pos], 0)
     end
 end
-
