@@ -53,37 +53,42 @@ struct Properties
 end
 
 # Initialize the model
-function initialize_model(num_sheep::Int, arena_side::Int, params::Dict)
+function initialize_model(; num_sheep = 5, arena_side = 78, seed = 1234, gamma = .00004, 
+    max_sward_height = 400, epsilon = 5e-4, mu_l = 1e-4, 
+    mu_L = 1.5e-5, phi = 1.776e-5, beta = 0.1, min_sward_height = 50, 
+    mu_k = 0.0, Lambda = 0.0, mu_a = 0.01, mu_A = 2e-5, 
+    chi = 3e-5, eta = 0.025, sigma = 1.9e-8, lambda = 2.0, 
+    s0 = 2000, fdep = 1.0, nu = 0.015, inf_prob = 0.4)
+    Random.seed!(seed)
     # define space
     space = GridSpace((arena_side, arena_side), periodic = false)
 
     # define space properties and model parameters
-
-    properties = Properties(
-        fill(200, spacesize(space)),
-        fill(0, spacesize(space)),
-        fill(0, spacesize(space)),
-        fill(0, spacesize(space)),
-        params["gamma"],
-        params["max_sward_height"],
-        params["epsilon"],
-        params["mu_l"],
-        params["mu_L"],
-        params["phi"],
-        params["beta"],
-        params["min_sward_height"],
-        params["mu_k"],
-        params["Lambda"],
-        params["mu_a"],
-        params["mu_A"],
-        params["chi"],
-        params["eta"],
-        params["sigma"],
-        params["lambda"],
-        params["s0"],
-        params["fdep"],
-        params["nu"],
-        params["inf_prob"]
+    properties = Dict(
+        :sward_height => fill(200, spacesize(space)),
+        :inf_larva_number => fill(0, spacesize(space)),
+        :uninf_larva_number => fill(0, spacesize(space)),
+        :feces_number => fill(0, spacesize(space)),
+        :gamma => gamma,
+        :max_sward_height => max_sward_height,
+        :epsilon => epsilon,
+        :mu_l => mu_l,
+        :mu_L => mu_L,
+        :phi => phi,
+        :beta => beta,
+        :min_sward_height => min_sward_height,
+        :mu_k => mu_k,
+        :Lambda => Lambda,
+        :mu_a => mu_a,
+        :mu_A => mu_A,
+        :chi => chi,
+        :eta => eta,
+        :sigma => sigma,
+        :lambda => lambda,
+        :s0 => s0,
+        :fdep => fdep,
+        :nu => nu,
+        :inf_prob => inf_prob
     )
 
     # define events
