@@ -1,17 +1,22 @@
 # define functions for sheep dynamics
 function grazing!(agent, model)
     pos = CartesianIndex(agent.pos)
-    
-    consumed_inf = floor(Int, model.inf_larva_number[pos] / model.sward_height[pos])
-    consumed_uninf = floor(Int, model.uninf_larva_number[pos] / model.sward_height[pos])
-    
+    il = model.inf_larva_number[pos]
+    ul = model.uninf_larva_number[pos]
+    sh = model.sward_height[pos]
+    if il>0
+        consumed_inf = floor(Int, il/sh)
     model.inf_larva_number[pos] -= consumed_inf
+        agent.imm_par_load += floor(Int, model.inf_prob * consumed_inf)
+        agent.immunity_level += consumed_inf
+    end
+    if ul>0
+        consumed_uninf = floor(Int, ul/sh)
     model.uninf_larva_number[pos] -= consumed_uninf
+    end
     
-    agent.imm_par_load += floor(Int, model.inf_prob * consumed_inf)
     agent.stomach_content += 1
     model.sward_height[pos] -= 1
-    agent.immunity_level += consumed_inf
 end
 
 function grazing_propensity(agent, model)
