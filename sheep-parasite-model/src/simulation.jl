@@ -21,7 +21,7 @@ end
 
 function grazing_propensity(agent, model)
     pos = CartesianIndex(agent.pos)
-    return model.beta * (model.sward_height[pos] - model.min_sward_height) * exp(-model.mu_k * model.feces_number[pos] * (agent.imm_par_load + agent.mat_par_load) * model.Lambda)
+    return model.beta * (model.sward_height[pos] - model.min_sward_height) * exp(-model.mu_k * model.feces_number[pos] * (agent.imm_par_load + agent.mat_par_load) ^ model.Lambda)
 end
 
 function death_a!(agent, model)
