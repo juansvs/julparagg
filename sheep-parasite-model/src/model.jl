@@ -2,39 +2,37 @@ export initialize_model
 using Random: seed!
 
 # Initialize the model
-function initialize_model(; seed, num_sheep, arena_side, gamma, max_sward_height, min_sward_height,
-    epsilon, mu_l, mu_L, phi, beta, mu_k, Lambda, mu_a, mu_A, chi, eta, sigma, lambda, s0, fdep,
-    nu, inf_prob)
-    seed!(seed)
+function initialize_model(num_sheep::Int, arena_side::Int, params::Dict)
     # define space
     space = GridSpace((arena_side, arena_side), periodic = false)
 
     # define space properties and model parameters
-    properties = Dict(
-        :sward_height => fill(200, spacesize(space)),
-        :inf_larva_number => fill(0, spacesize(space)),
-        :uninf_larva_number => fill(0, spacesize(space)),
-        :feces_number => fill(0, spacesize(space)),
-        :gamma => gamma,
-        :max_sward_height => max_sward_height,
-        :epsilon => epsilon,
-        :mu_l => mu_l,
-        :mu_L => mu_L,
-        :phi => phi,
-        :beta => beta,
-        :min_sward_height => min_sward_height,
-        :mu_k => mu_k,
-        :Lambda => Lambda,
-        :mu_a => mu_a,
-        :mu_A => mu_A,
-        :chi => chi,
-        :eta => eta,
-        :sigma => sigma,
-        :lambda => lambda,
-        :s0 => s0,
-        :fdep => fdep,
-        :nu => nu,
-        :inf_prob => inf_prob
+
+    properties = Properties(
+        fill(200, spacesize(space)),
+        fill(0, spacesize(space)),
+        fill(0, spacesize(space)),
+        fill(0, spacesize(space)),
+        params["gamma"],
+        params["max_sward_height"],
+        params["epsilon"],
+        params["mu_l"],
+        params["mu_L"],
+        params["phi"],
+        params["beta"],
+        params["min_sward_height"],
+        params["mu_k"],
+        params["Lambda"],
+        params["mu_a"],
+        params["mu_A"],
+        params["chi"],
+        params["eta"],
+        params["sigma"],
+        params["lambda"],
+        params["s0"],
+        params["fdep"],
+        params["nu"],
+        params["inf_prob"]
     )
 
     # define events
