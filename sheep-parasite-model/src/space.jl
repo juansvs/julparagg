@@ -65,7 +65,7 @@ function update_space_properties!(model)
         # Sward growth
         propensity = growth_propensity(pos, model)
         if propensity > 0.0
-            num_events = rand(Poisson(propensity * dt))
+            num_events = rand(Poisson(max(propensity * dt, 0.0)))
             if num_events > 0
                 sward_growth!(pos, model, num_events)
             end
@@ -74,7 +74,7 @@ function update_space_properties!(model)
         # Larval development (uninfective -> infective)
         propensity = larval_dev_propensity(pos, model)
         if propensity > 0.0
-            num_events = rand(Poisson(propensity * dt))
+            num_events = rand(Poisson(max(propensity * dt, 0.0)))
             if num_events > 0
                 larval_dev!(pos, model, num_events)
             end
@@ -83,7 +83,7 @@ function update_space_properties!(model)
         # Death of uninfective larvae
         propensity = death_l_propensity(pos, model)
         if propensity > 0.0
-            num_events = rand(Poisson(propensity * dt))
+            num_events = rand(Poisson(max(propensity * dt, 0.0)))
             if num_events > 0
                 death_l!(pos, model, num_events)
             end
@@ -92,7 +92,7 @@ function update_space_properties!(model)
         # Death of infective larvae
         propensity = death_L_propensity(pos, model)
         if propensity > 0.0
-            num_events = rand(Poisson(propensity * dt))
+            num_events = rand(Poisson(max(propensity * dt, 0.0)))
             if num_events > 0
                 death_L!(pos, model, num_events)
             end
@@ -101,7 +101,7 @@ function update_space_properties!(model)
         # Feces decay
         propensity = feces_decay_propensity(pos, model)
         if propensity > 0.0
-            num_events = rand(Poisson(propensity * dt))
+            num_events = rand(Poisson(max(propensity * dt, 0.0)))
             if num_events > 0
                 feces_decay!(pos, model, num_events)
             end
