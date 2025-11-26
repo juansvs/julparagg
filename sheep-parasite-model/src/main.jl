@@ -36,18 +36,14 @@ parameters = Dict(
     :inf_prob => 0.4
 )
 
-adf, mdf = paramscan(parameters, initialize_model; showprogress = true, 
-    n = 60*24*10.0, when = 360.0,
-    adata = [:imm_par_load, :mat_par_load, :stomach_content, :immunity_level],
-    mdata = [:sward_height, :inf_larva_number, :uninf_larva_number])
 
 function main()
     # Initialize the model
-    model = initialize_model(; parameters...)
+    model = initialize_model(5, 78, parameters)
 
     # Run the simulation
     simtime = 60*24*15.0  # total simulation time in minutes
-    time_series =     run_sim!(model, simtime, 360.0)
+    time_series = run_sim!(model, simtime, 360.0)
 
     return model, time_series
 end
