@@ -1,7 +1,8 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads, StatsBase, JLD2, Plots, Distributions
-
+using Agents, Random, Base.Threads, StatsBase
+using Distributions: Poisson
+using Distributions: Multinomial
 include("agents.jl")
 include("space.jl")
 include("simulation.jl")
@@ -10,9 +11,9 @@ include("model.jl")
 
 # set simulation parameters
 parameters = Dict(
-    :num_sheep => [10, 30],
-    :arena_side => [78,100],
-    :seed => collect(1:5),
+    :num_sheep => 5,
+    :arena_side => 78,
+    :seed => 10,
     :gamma => 0.00004,
     :max_sward_height => 400,
     :epsilon => 0.00005,
@@ -21,9 +22,9 @@ parameters = Dict(
     :phi => 0.00001776,
     :beta => 0.1,
     :min_sward_height => 50,
-    :mu_k => [0.0, 0.1],
-    :Lambda => [0.0, 0.1],
-    :mu_a => 0.01,
+    :mu_k => 0.0,
+    :Lambda => 0.0,
+    :mu_a => 1e-4,
     :mu_A => 2e-5,
     :chi => 0.00003,
     :eta => 0.025,
@@ -42,7 +43,7 @@ adf, mdf = paramscan(parameters, initialize_model; showprogress = true,
 
 function main()
     # Initialize the model
-    model = initialize_model(10, 78, params)
+    model = initialize_model(; parameters...)
 
     # Run the simulation
     simtime = 60*24*15.0  # total simulation time in minutes
