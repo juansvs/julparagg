@@ -2,13 +2,10 @@ export initialize_model
 using Random: seed!
 
 # Initialize the model
-function initialize_model(; num_sheep = 5, arena_side = 78, seed = 1234, gamma = .00004, 
-    max_sward_height = 400, epsilon = 5e-4, mu_l = 1e-4, 
-    mu_L = 1.5e-5, phi = 1.776e-5, beta = 0.1, min_sward_height = 50, 
-    mu_k = 0.0, Lambda = 0.0, mu_a = 0.01, mu_A = 2e-5, 
-    chi = 3e-5, eta = 0.025, sigma = 1.9e-8, lambda = 2.0, 
-    s0 = 2000, fdep = 1.0, nu = 0.015, inf_prob = 0.4)
-    Random.seed!(seed)
+function initialize_model(; seed, num_sheep, arena_side, gamma, max_sward_height, min_sward_height,
+    epsilon, mu_l, mu_L, phi, beta, mu_k, Lambda, mu_a, mu_A, chi, eta, sigma, lambda, s0, fdep,
+    nu, inf_prob)
+    seed!(seed)
     # define space
     space = GridSpace((arena_side, arena_side), periodic = false)
 
