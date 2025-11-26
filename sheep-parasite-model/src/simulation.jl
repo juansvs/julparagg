@@ -1,3 +1,6 @@
+export grazing!, death_a!, death_A!, maturation!, defecation!, immunity_gain!, immunity_loss!, egg_production!, move!
+export grazing_propensity, death_a_propensity, death_A_propensity, defecation_propensity, immunity_gain_propensity, immunity_loss_propensity, egg_production_propensity, move_propensity
+
 # define functions for sheep dynamics
 function grazing!(agent, model)
     pos = CartesianIndex(agent.pos)

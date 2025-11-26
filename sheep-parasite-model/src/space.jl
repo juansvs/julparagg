@@ -1,3 +1,6 @@
+export sward_growth!, larval_dev!, death_L!, death_l!, feces_decay!, update_space_properties!
+export growth_propensity, larval_dev_propensity, death_L_propensity, death_l_propensity, feces_decay_propensity
+
 # define functions for patch dynamics
 function sward_growth!(pos, model, n)
     model.sward_height[pos] += n

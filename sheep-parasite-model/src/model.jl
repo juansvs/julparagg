@@ -1,3 +1,6 @@
+export initialize_model
+using Random: seed!
+
 # Initialize the model
 function initialize_model(; num_sheep = 5, arena_side = 78, seed = 1234, gamma = .00004, 
     max_sward_height = 400, epsilon = 5e-4, mu_l = 1e-4, 
