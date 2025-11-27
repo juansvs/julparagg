@@ -9,13 +9,13 @@ function grazing!(agent, model)
     sh = model.sward_height[pos]
     if il>0
         consumed_inf = floor(Int, il/sh)
-    model.inf_larva_number[pos] -= consumed_inf
+        model.inf_larva_number[pos] -= consumed_inf
         agent.imm_par_load += floor(Int, model.inf_prob * consumed_inf)
         agent.immunity_level += consumed_inf
     end
     if ul>0
         consumed_uninf = floor(Int, ul/sh)
-    model.uninf_larva_number[pos] -= consumed_uninf
+        model.uninf_larva_number[pos] -= consumed_uninf
     end
     
     agent.stomach_content += 1
@@ -111,7 +111,7 @@ function move_propensity(agent, model)
 end
 
 
-function save_state(outobj, model::AgentBasedModel, freq::Float64=360.0)
+function save_state!(outobj, model::AgentBasedModel, freq::Float64=360.0)
     # check if time has advanced by freq minutes and is a new minute
     _, v = first(abmqueue(model))
     nxt = floor(v)
@@ -151,7 +151,7 @@ function run_sim!(model::AgentBasedModel, t::Float64=1440.0, sfreq::Float64=360.
         update_space_properties!(model)
         step!(model) 
         # save data at specified intervals
-        save_state(outobj, model, sfreq)
+        save_state!(outobj, model, sfreq)
     end
     return outobj
 end
