@@ -1,6 +1,6 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads, StatsBase, JLD2, Plots
+using Agents, Random, Base.Threads, StatsBase, JLD2
 using Distributions:Poisson
 using Distributions:Multinomial
 
@@ -8,7 +8,6 @@ include("agents.jl")
 include("space.jl")
 include("simulation.jl")
 include("model.jl")
-include("visualization.jl")
 
 # set simulation parameters
 params = Dict(
@@ -22,7 +21,7 @@ params = Dict(
     "min_sward_height" => 50,
     "mu_k" => 0.0,
     "Lambda" => 1.0,
-    "mu_a" => 0.01,
+    "mu_a" => 0.0001,
     "mu_A" => 2e-5,
     "chi" => 0.00003,
     "eta" => 0.025,
@@ -37,19 +36,19 @@ params = Dict(
 
 function main()
     # Initialize the model
-    model = initialize_model(5, 78, parameters)
+    model = initialize_model(5, 78, params)
 
     # Run the simulation
-    simtime = 60*24*15.0  # total simulation time in minutes
-    time_series = run_sim!(model, simtime, 360.0)
+    simtime = 60*24*90.0  # total simulation time in minutes
+    ts = run_sim!(model, simtime, 720.0)
 
     # Visualize the results
     # visualize_results(model)
-    return model, time_series
+    return model, ts
 end
 
 # run the main function and time it
-@time endstate, time_series = main()
+@time model, ts = main()
 
 # write outputs to file
-@save "simulation_output.jld2" time_series endstate
+@save "simulation_output.jld2" model ts
