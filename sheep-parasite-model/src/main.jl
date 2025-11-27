@@ -1,16 +1,21 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads, StatsBase, JLD2
-using Distributions:Poisson
-using Distributions:Multinomial
+@everywhere begin
+    using Agents, Random, Base.Threads, StatsBase, JLD2
+    using Distributions:Poisson
+    using Distributions:Multinomial
 
-include("agents.jl")
-include("space.jl")
-include("simulation.jl")
-include("model.jl")
+    include("agents.jl")
+    include("space.jl")
+    include("simulation.jl")
+    include("model.jl")
+end
 
 # set simulation parameters
-params = Dict(
+@everywhere params = Dict(
+    "Na" => 5,
+    "arena_side" => 78,
+    "simtime" => 24*60*15,
     "gamma" => 0.00004,
     "max_sward_height" => 400,
     "epsilon" => 0.00005,
@@ -34,21 +39,22 @@ params = Dict(
 )
 
 
-function main()
+@everywhere function main(params)
     # Initialize the model
-    model = initialize_model(5, 78, parameters)
+    model = initialize_model(params["Na"], params["arena_side"], params)
 
     # Run the simulation
-    simtime = 60*24*15.0  # total simulation time in minutes
-    time_series = run_sim!(model, simtime, 360.0)
+    time_series = run_sim!(model, params["simtime"], 720.0)
 
     # Visualize the results
     # visualize_results(model)
     return model, time_series
 end
 
-# run the main function and time it
-@time endstate, time_series = main()
+# # run the main function and time it
+# @time endstate, time_series = main()
 
+# run in parallel
+@time c = pmap(_ -> main(params), 1:8)
 # write outputs to file
-@save "simulation_output.jld2" time_series endstate
+@save "simulation_output.jld2" c
