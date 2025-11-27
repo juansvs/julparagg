@@ -15,7 +15,7 @@ end
 @everywhere params = Dict(
     "Na" => 5,
     "arena_side" => 78,
-    "simtime" => 24*60*15,
+    "simtime" => 24*60*15.0,
     "gamma" => 0.00004,
     "max_sward_height" => 400,
     "epsilon" => 0.00005,
