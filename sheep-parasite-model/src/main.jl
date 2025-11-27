@@ -1,6 +1,6 @@
 # src/main.jl
 
-using Agents, Random, Base.Threads, StatsBase, JLD2, Plots
+using Agents, Random, Base.Threads, StatsBase, JLD2
 using Distributions:Poisson
 using Distributions:Multinomial
 
@@ -8,7 +8,6 @@ include("agents.jl")
 include("space.jl")
 include("simulation.jl")
 include("model.jl")
-include("visualization.jl")
 
 # set simulation parameters
 params = Dict(
