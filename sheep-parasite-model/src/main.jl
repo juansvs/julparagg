@@ -16,20 +16,21 @@ nworkers()
 end
 
 # set simulation parameters
-@everywhere params = Dict(
-    "Na" => 30,
+
+params_list = [Dict(
+    "Na" => 10,
     "arena_side" => 100,
-   "simtime" => 24*60*60.0,
-  "gamma" => 0.00004,
-    "max_sward_height" => 400,
+    "simtime" => 24*60*60.0,
+    "gamma" => 0.00004,
+   "max_sward_height" => 400,
     "epsilon" => 0.00005,
     "mu_l" => 0.0001,
     "mu_L" => 0.000015,
     "phi" => 0.00001776,
     "beta" => 0.1,
     "min_sward_height" => 50,
-    "mu_k" => 0.0,
-    "Lambda" => 1.0,
+    "mu_k" => mu_k,
+    "Lambda" => Lambda,
     "mu_a" => 0.0001,
     "mu_A" => 2e-5,
     "chi" => 0.00003,
@@ -40,7 +41,9 @@ end
     "fdep" => 1,
     "nu" => 0.015,
     "inf_prob" => 0.4
-)
+) 
+for mu_k in [0.0 0.5 1.0] for Lambda in [0.0 0.5 1.0]
+]
 
 
 @everywhere function main(params)
@@ -57,6 +60,6 @@ end
 # @time endstate, time_series = main()
 
 # run in parallel
-@time c = pmap(_ -> main(params), 1:20)
+@time c = pmap(main, params_list)
 # write outputs to file
-@save "simulation_output.jld2" c
+@save "simulation_output.jld2" c params_list
