@@ -1,4 +1,8 @@
 # src/main.jl
+using Distributed, ClusterManagers
+proc_num = parse(Int, ENV["SLURM_NTASKS"])
+addprocs(SlurmManager(proc_num))
+nworkers()
 
 @everywhere begin
     using Agents, Random, Base.Threads, StatsBase, JLD2
@@ -13,8 +17,8 @@ end
 
 # set simulation parameters
 @everywhere params = Dict(
-    "Na" => 5,
-    "arena_side" => 78,
+    "Na" => 30,
+    "arena_side" => 100,
    "simtime" => 24*60*60.0,
   "gamma" => 0.00004,
     "max_sward_height" => 400,
@@ -46,15 +50,13 @@ end
     # Run the simulation
     time_series = run_sim!(model, params["simtime"], 720.0)
 
-    # Visualize the results
-    # visualize_results(model)
-    return model, time_series
+   return model, time_series
 end
 
 # # run the main function and time it
 # @time endstate, time_series = main()
 
 # run in parallel
-@time c = pmap(_ -> main(params), 1:8)
+@time c = pmap(_ -> main(params), 1:20)
 # write outputs to file
 @save "simulation_output.jld2" c
