@@ -18,11 +18,12 @@ end
 # set simulation parameters
 
 params_list = [Dict(
-    "Na" => 10,
+    "Na" => 30,
     "arena_side" => 100,
-    "simtime" => 24*60*60.0,
+    "simtime" => 24*60*90.0,
+    "savefreq" => 1440.0,
     "gamma" => 0.00004,
-   "max_sward_height" => 400,
+    "max_sward_height" => 400,
     "epsilon" => 0.00005,
     "mu_l" => 0.0001,
     "mu_L" => 0.000015,
@@ -51,7 +52,7 @@ for mu_k in [0.0 0.5 1.0] for Lambda in [0.0 0.5 1.0]
     model = initialize_model(params["Na"], params["arena_side"], params)
 
     # Run the simulation
-    time_series = run_sim!(model, params["simtime"], 720.0)
+    time_series = run_sim!(model, params["simtime"], params["savefreq"])
 
    return model, time_series
 end
