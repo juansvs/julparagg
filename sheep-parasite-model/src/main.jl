@@ -1,8 +1,6 @@
 # src/main.jl
-using Distributed, ClusterManagers
-proc_num = parse(Int, ENV["SLURM_NTASKS"])
-addprocs(SlurmManager(proc_num))
-nworkers()
+using Distributed, SlurmClusterManager
+addprocs(SlurmManager())
 
 @everywhere begin
     using Agents, Random, Base.Threads, StatsBase, JLD2
@@ -61,6 +59,6 @@ end
 # @time endstate, time_series = main()
 
 # run in parallel
-@time c = pmap(main, params_list)
+c = pmap(main, params_list)
 # write outputs to file
 @save "simulation_output.jld2" c params_list
